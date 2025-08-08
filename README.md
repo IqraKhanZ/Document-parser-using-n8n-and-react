@@ -207,15 +207,6 @@ The backend is powered by a sophisticated n8n workflow that processes chat reque
 - JSON parsing errors
 - User-friendly error messages
 
-## 🚀 Deployment
-
-### Frontend Deployment
-Can be deployed to:
-- **Vercel** (recommended for Vite projects)
-- **Netlify**
-- **GitHub Pages**
-- **Any static hosting service**
-
 ### n8n Workflow
 - Hosted on n8n Cloud
 - Webhook URL: `https://anythingman.app.n8n.cloud/webhook/chatbot`
@@ -236,20 +227,9 @@ Can be deployed to:
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Support
-
-For issues or questions:
-- Check the console logs for detailed error information
-- Verify n8n webhook is responding correctly
-- Ensure all credentials are properly configured
-
 ---
 
-**Built with ❤️ using React, Vite, and n8n**+ Vite
+**Built  using React, Vite, and n8n**+ Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -258,6 +238,4 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
