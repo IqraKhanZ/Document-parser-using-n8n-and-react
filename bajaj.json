@@ -1,0 +1,357 @@
+{
+  "name": "bajaj",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2024,
+        1152
+      ],
+      "id": "f73dd04e-2bce-4fd5-9755-8a6448d417f3",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Aj7sxUOEVc7iDQwl",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        2448,
+        1152
+      ],
+      "id": "cf822981-eb4c-458b-a401-ae8c970158e4",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "sikgHZKFwty2P5U6",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        1376
+      ],
+      "id": "33fd0318-c3f2-4c31-ab06-8a2149e9cae5",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2160,
+        976
+      ],
+      "id": "0bf2304d-a60b-4c10-8b6c-edd1c38bd5b0",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "wCeqtiphAT4TFSaR",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "You are a helpful AI assistant with access to a knowledge base stored in a Supabase vector database.\nYou can retrieve relevant information from the database when needed and answer questions accurately based on both the retrieved data and your general knowledge.\nIf the answer is found in the database, prioritize that information.\nIf the database has no relevant information, respond using your own knowledge without fabricating details.\nAlways give clear, concise, and factual answers, and ask clarifying questions when the user’s request is ambiguous."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1880,
+        544
+      ],
+      "id": "0d8c8961-6c7a-4dda-bc7f-cc5f20b8af9a",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "=Call this tool to help with the user's query. {{ $('Webhook1').item.json.body.message }}",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        2080,
+        768
+      ],
+      "id": "1c9ea4bb-bc73-4664-ae31-d68dc1d26c24",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "sikgHZKFwty2P5U6",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1952,
+        768
+      ],
+      "id": "505d3f57-422d-4def-b008-397d84c9f1c8",
+      "name": "Postgres1",
+      "credentials": {
+        "postgres": {
+          "id": "Cx38vP444nPNze4M",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1824,
+        768
+      ],
+      "id": "1258921d-b4a9-4402-968b-ec86da2ac09d",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "wCeqtiphAT4TFSaR",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1ObV3x-xd-vb57Gcg8XqBuJSYBIYwjEPI",
+            "mode": "list",
+            "cachedResultName": "bajaj",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1ObV3x-xd-vb57Gcg8XqBuJSYBIYwjEPI"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        1152
+      ],
+      "id": "28c99358-868b-4283-8724-17c2a440ff10",
+      "name": "Search files and folders1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Aj7sxUOEVc7iDQwl",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/chatbot",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1600,
+        752
+      ],
+      "id": "5c5add09-7b22-4ae3-a8f1-c1ab7273d941",
+      "name": "Webhook1",
+      "webhookId": "dcab92bd-68dc-4f7e-8cf2-04d8ddb7679c"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2512,
+        752
+      ],
+      "id": "6c5e1da7-d715-4e06-8a19-26bb506faa35",
+      "name": "Respond to Webhook1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase1",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders1": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b320116c-c1ca-4cf0-ad41-dbcd5bbb7759",
+  "meta": {
+    "instanceId": "931df4eb8a109c813ae7c326b4309d54d0cef7268dc8f70f5fe967137bf36f0c"
+  },
+  "id": "q2TLYPzlk00pHprq",
+  "tags": []
+}
